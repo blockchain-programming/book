@@ -257,6 +257,7 @@ bitcoin-rubyの場合
  x = "8b7a293ef55f76be5bbcd72de1d767e568f218f7713c000e3abc15662e3af6cc"
  y = "bf01df16760f317b796ecb799701fcbc776a781eaa6806d88b31e1e187d45a5f" # yは奇数
  compressed_pubKey = "03" + x      # y が奇数の場合、プレフィックス "03"をつける
+ => "038b7a293ef55f76be5bbcd72de1d767e568f218f7713c000e3abc15662e3af6cc"
 
 
  x = "b724a33a5ff35d56a66ab8cf3a314252d8680c35d2e6cc385747d03c8860919c"
