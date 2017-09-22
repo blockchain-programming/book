@@ -92,8 +92,8 @@ curves = OpenSSL::PKey::EC.builtin_curves
 privKey
 ```ruby
  n = group.order                                      # Gの位数
- privKey = 1 + SecureRandom.random_number(n-1)         # 秘密鍵の生成
- pubKey = group.generator.multiply_by_scalar(privKey)  # 公開鍵の生成
+ privKey = 1 + SecureRandom.random_number(n-1)        # 秘密鍵の生成
+ pubKey = group.generator.multiply_by_scalar(privKey) # 公開鍵の生成
  pubKey.x                                             # 公開鍵のx座標の値
  pubKey.y                                             # 公開鍵のy座標の値
 ```
@@ -103,7 +103,7 @@ bitcoin-rubyの場合
 ```ruby
  require 'bitcoin'
  key = Bitcoin::generate_key    # 秘密鍵と公開鍵の配列を出力する
- privKey=key[0]                  # 秘密鍵
+ privKey=key[0]                 # 秘密鍵
  pubKey=key[1]                  # 公開鍵 
 ```
 
@@ -113,8 +113,8 @@ ruby-opensslの場合
  require 'openssl'
  ec = OpenSSL::PKey::EC.new('secp256k1')       # secp256k1楕円曲線暗号オブジェクトの生成
  key=ec.generate_key                           # 秘密鍵と公開鍵を生成
- privKey = key.private_key.to_i                 # 秘密鍵を整数で表示
- key.public_key.to_bn.to_i                     # 公開鍵を整数で表示
+ privKey = key.private_key.to_i                # 秘密鍵を整数で表示
+ pubKey = key.public_key.to_bn.to_i            # 公開鍵を整数で表示
 ```
 
 ### ECDSAによる電子署名
@@ -123,7 +123,7 @@ ruby-opensslの場合
  require 'digest'
  message = "この文字列が電子署名の対象となるメッセージです"
  digest = Digest::SHA256.hexdigest(message)          # メッセージのダイジェスト
- privKey                                              # 署名者の秘密鍵
+ privKey                                             # 署名者の秘密鍵
  pubKey                                              # 署名者の公開鍵
  k = 1 + SecureRandom.random_number(n-1)             # ランダムな整数kを選択
  sign = ECDSA.sign(group,privKey,digest,k)            # 電子署名の作成
