@@ -59,9 +59,9 @@ $  bitcoin-cli walletlock
 
 
 * [UO1 testnet Faucet :](http://bitcoinfaucet.uo1.net/)
-* [TP's testnet Faucet :] (http://tpfaucet.appspot.com/)
-* [flyingkiwi's testnet Faucet :] (https://testnet.manu.backend.hamburg/faucet)
-* [nkuttler's Bitcoin testnet Faucet :] (https://kuttler.eu/en/bitcoin/btc/faucet/)
+* [TP's testnet Faucet :](http://tpfaucet.appspot.com/)
+* [flyingkiwi's testnet Faucet :](https://testnet.manu.backend.hamburg/faucet)
+* [nkuttler's Bitcoin testnet Faucet :](https://kuttler.eu/en/bitcoin/btc/faucet/)
 
 
 ## ワレット残高を確認する
