@@ -19,26 +19,20 @@ $ bitcoin-cli getblockcount
 
 ```
 $ bitcoin-cli getnewaddress
-mr3xccBuBvKkLrsGx4y9XdhkkZQMHBoHKM
+<ビットコインアドレス1>
 ```
 
 ### アドレスにアカウントを設定する
 
 ```
-$ bitcoin-cli setaccount msksQAKTiCFYC8MH7CqoKpH1FfvBGuAbeU SatoshiNakamoto
-$ bitcoin-cli setaccount mjXM1dXRwowLjYPmyyWJEkLEvAH8CgSJmm SatoshiNakamoto
-$ bitcoin-cli setaccount mr3xccBuBvKkLrsGx4y9XdhkkZQMHBoHKM MickeyMouse
+$ bitcoin-cli setaccount <ビットコインアドレス> <アカウント>
 ```
 
 アカウントごとの所持金残高を知る。
 
 ```
 $ bitcoin-cli listaccounts
-{
-  "": 0.00000000,
-  "MickeyMouse": 0.13000000,
-  "NakamotoSatoshi": 1.30000000,
-}
+
 ```
 
 ### ワレットの秘密鍵の暗号化
@@ -47,9 +41,13 @@ $ bitcoin-cli listaccounts
 $ bitcoin-cli encryptwallet <パスワード>
 ```
 
+ワレットの秘密鍵の復号化
+
 ```
 $ bitcoin-cli walletpassphrase <パスワード> <保持時間（秒）>
 ```
+
+ワレットの再暗号化
 
 ```
 $  bitcoin-cli walletlock
@@ -84,10 +82,10 @@ require 'bitcoin'
 require 'net/http'
 require 'json'
 Bitcoin.network = :testnet3
-RPCUSER = <ユーザ名>　    	# JSON RPC のためのユーザ名
-RPCPASSWORD = <パスワード>	# JSON RPC のためのパスワード
-HOST="localhost"			# JSON RPC のhost
-PORT=18332					# ポート番号
+RPCUSER = <ユーザ名>        # JSON RPC のためのユーザ名
+RPCPASSWORD = <パスワード>  # JSON RPC のためのパスワード
+HOST="localhost"          # JSON RPC のhost
+PORT=18332                # ポート番号
  
 #bitcoindへのHTTPアクセスするメソッド
 def bitcoinRPC(method,param)
@@ -108,26 +106,34 @@ end
 
 ## ビットコインを送金する
 
-### 取引手数料の既定値の設定
+取引手数料の既定値の設定
 
 ```
 $ bitcoin-cli settxfee 0.00001
-true
 ```
 
+暗号化された秘密鍵を復号化するパスワードのセット
+
 ```
-# 暗号化された秘密鍵を復号化するパスワードのセット
 $ bitcoin-cli walletpassphrase <パスワード> <保持時間（秒）>
-# ビットコインの送金の例
-$ bitcoin-cli sendfrom MickeyMouse msksQAKTiCFYC8MH7CqoKpH1FfvBGuAbeU 0.1
-45d3d4b716418fcf3a983df572d9faa9e799a7e36439cd415211e66554ecf381
-# 秘密鍵の復号化に使用するパスワードをメモリから削除してワレットをロック状態に戻す
+```
+
+ビットコインの送金
+
+```
+$ bitcoin-cli sendfrom <送金元アカウント> <送金先ビットコインアドレス> <送金金額>
+<トランザクションID>
+```
+
+秘密鍵の復号化に使用するパスワードをメモリから削除してワレットをロック状態に戻す
+
+```
 $ bitcoin-cli walletlock
 ```
 
 ```ruby
  bitcoinRPC('walletpassphrase',[<パスワード>, <保持時間（秒）>])
- bitcoinRPC('sendfrom',['MickeyMouse','msksQAKTiCFYC8MH7CqoKpH1FfvBGuAbeU',0.1])
+ bitcoinRPC('sendfrom',[<アカウント>, <送金先ビットコインアドレス>, <送金金額(BTC)>])
  bitcoinRPC('walletlock',[])
 ```
 
@@ -139,8 +145,6 @@ $ bitcoin-cli walletlock
 
 ```
 $ bitcoin-cli gettransaction 45d3d4b716418fcf3a983df572d9faa9e799a7e36439cd415211e66554ecf381
-
-
 ```
 
 `bitcoinRPC('gettransaction',['<トランザクションID>'])`
@@ -227,28 +231,22 @@ png.resize(300, 300).save("bill.png") # サイズを300*300 に拡大して保�
 ### ルートシードの生成
 
 ```ruby
- require 'hdkey'
- require 'securerandom'
+require 'securerandom'
 # ルートシードの生成
  root_seed=SecureRandom.hex(32)
-=> "d4f5ebae05fd3ded311b55bc8fe9896467f890751a9eb6d48ad1e0d9fb1e19aa"
 ```
 
 ### マスター鍵の生成
-
 
 ```ruby
 #　マスターキーの生成
  master_key = Bitcoin::ExtKey.generate_master(root_seed.htb)
 # マスター秘密鍵
  m = master_key.priv
-=> "92d0a269abb5700a086504279236c9ff671a337b05ea805a8d5d1da597bdce6f"
 # マスター公開鍵
  M = master_key.pub
-=> "023a051198a3f3209e70a0d84bf6858663dbbee1390a119967184fbf62a55903c9"
 # マスターチェインコード
  master_key.chain_code
-=> "\xC1\x81JO8k\xA6N\xEFLLf\xB9\xAA\x06\xAC\xA9\xF0\xBF?\xF0\xC4C\x96\xF8\xA1\xD3I\xBE\xAC\x87#"
 #派生階層
  master_key.depth
 => 0
