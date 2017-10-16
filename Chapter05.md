@@ -350,7 +350,7 @@ def dhash(data)
 end
 
 # ブロックヘッダのダブルハッシュと難易度ターゲットの比較
-dhash(blockheader).hex < terget(difficulty_target).hex
+dhash(blockheader).hex < terget(difficulty_target)
 => true
 ```
 
