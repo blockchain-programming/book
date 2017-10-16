@@ -16,7 +16,7 @@ $ git tag
 ```
 
 ```
-$ git checkout -b v0.14.1
+$ git checkout -b 0.14.2 refs/tags/v0.14.2
 ```
 
 #### 依存パッケージのダウンロード
