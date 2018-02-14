@@ -83,7 +83,8 @@ curves = OpenSSL::PKey::EC.builtin_curves
 ```
 
 ### ECDSAの暗号鍵の生成
-privKey
+
+
 ```ruby
  n = group.order                                      # Gの位数
  privKey = 1 + SecureRandom.random_number(n-1)        # 秘密鍵の生成
@@ -114,23 +115,30 @@ ruby-opensslの場合
 ### ECDSAによる電子署名
 
 ```ruby
- require 'digest'
- message = "この文字列が電子署名の対象となるメッセージです"
- digest = Digest::SHA256.hexdigest(message)          # メッセージのダイジェスト
- privKey                                             # 署名者の秘密鍵
- pubKey                                              # 署名者の公開鍵
- k = 1 + SecureRandom.random_number(n-1)             # ランダムな整数kを選択
- sign = ECDSA.sign(group,privKey,digest,k)            # 電子署名の作成
+require 'digest'
+require 'securerandom'
+require 'ecdsa'
 
- sign.r                                              # 電子署名の rの確認
- sign.s                                              # 電子署名の sの確認
+group = ECDSA::Group::Secp256k1   
+n = group.order                                      # Gの位数
+privKey = 1 + SecureRandom.random_number(n-1)        # 秘密鍵の生成
+pubKey = group.generator.multiply_by_scalar(privKey) # 公開鍵の生成
+ 
+message = "この文字列が電子署名の対象となるメッセージです"
+digest = Digest::SHA256.hexdigest(message)          # メッセージのダイジェスト
+ 
+k = 1 + SecureRandom.random_number(n-1)             # ランダムな整数kを選択
+sign = ECDSA.sign(group,privKey,digest,k)            # 電子署名の作成
+
+sign.r                                              # 電子署名の rの確認
+sign.s                                              # 電子署名の sの確認
 
 ```
 
 #### 電子署名のバイナリエンコーディング
 
 ```ruby
- der_sign = ECDSA::Format::SignatureDerString.encode(sign)
+der_sign = ECDSA::Format::SignatureDerString.encode(sign)
 ```
 
 #### 電子署名の検証
