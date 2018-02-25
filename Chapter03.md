@@ -67,18 +67,19 @@ $ irb
 require 'openssl'
 curves = OpenSSL::PKey::EC.builtin_curves
 
- group = ECDSA::Group::Secp256k1            # secp256k1のパラメータセットのオブジェクト生成
- group.field.prime                          # 剰余系の素数p
+require 'ecdsa'
+group = ECDSA::Group::Secp256k1            # secp256k1のパラメータセットのオブジェクト生成
+group.field.prime                          # 剰余系の素数p
 => 115792089237316195423570985008687907853269984665640564039457584007908834671663
- group.generator.x                          # 基準点Gのx座標
+group.generator.x                          # 基準点Gのx座標
 => 55066263022277343669578718895168534326250603453777594175500187360389116729240
- group.generator.y                          # 基準点Gのy座標
+group.generator.y                          # 基準点Gのy座標
 => 32670510020758816978083085130507043184471273380659243275938904335757337482424
  group.param_a                              # 係数a
 => 0
- group.param_b                              # 係数b
+group.param_b                              # 係数b
 => 7
- group.order                                # Gの位数
+group.order                                # Gの位数
 => 115792089237316195423570985008687907852837564279074904382605163141518161494337
 ```
 
