@@ -24,6 +24,8 @@ $ irb
  key.private_key.to_i                            # 秘密鍵を整数として取り出す
 ```
 
+[class OpenSSL::PKey::ECのドキュメント](https://docs.ruby-lang.org/ja/latest/class/OpenSSL=3a=3aPKey=3a=3aEC.html)
+
 ### securerandom による安全な乱数
 
 ```ruby
@@ -31,12 +33,16 @@ $ irb
  SecureRandom.hex(32)     # 32バイト(=256ビット)の疑似乱数を生成する
 ```
 
+[securerandomのドキュメント](https://docs.ruby-lang.org/ja/latest/class/SecureRandom.html)
+
 ### ruby_ecdsa
 
 ```ruby
  require 'ecdsa'
  group = ECDSA::Group::Secp256k1
 ```
+
+[ruby_ecdsa のドキュメント](http://www.rubydoc.info/gems/ecdsa/ECDSA/Point)
 
 ### bitcoin-ruby
 
@@ -63,10 +69,24 @@ $ irb
 
 ## ECDSA
 
+### opensslに実装されている楕円曲線
+
 ```ruby
 require 'openssl'
 curves = OpenSSL::PKey::EC.builtin_curves
+```
 
+### 楕円曲線
+
+以下の式を満たす数のこと
+
+$
+y^2=x^3+ax+b
+$
+
+### ruby_ecdsaで　SECP256k1のパラメータを確認する
+
+```ruby
 require 'ecdsa'
 group = ECDSA::Group::Secp256k1            # secp256k1のパラメータセットのオブジェクト生成
 group.field.prime                          # 剰余系の素数p
