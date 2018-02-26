@@ -16,7 +16,7 @@ $ git tag
 ```
 
 ```
-$ git checkout -b 0.14.2 refs/tags/v0.14.2
+$ git checkout -b 0.16.0 refs/tags/v0.16.0
 ```
 
 #### 依存パッケージのダウンロード
@@ -117,7 +117,7 @@ $ bitcoin-cli stop
 #### bitcoin-cli コマンドを使ってbitcoind と対話する
 
 ```
-$ bitcoin-cli getinfo
+$ bitcoin-cli getblockchaininfo
 ```
 
 ##### RESTインターフェースを使ってbitcoind と対話する
