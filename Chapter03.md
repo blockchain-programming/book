@@ -108,7 +108,8 @@ group.order                                # Gの位数
 require 'ecdsa'
 group = ECDSA::Group::Secp256k1
 G=group.generator           # 基点
-G*3                         # 基点のスカラー倍 3G
+G.multiply_by_scalar(3)     # 基点のスカラー倍 3G
+G*3                         # 基点のスカラー倍 3G(簡略型)
 n=group.order               # 基点の位数
 G*n                         # 基点を位数倍する
 (G*n).infinity?             # 無限遠点=0 
@@ -119,7 +120,8 @@ G*n                         # 基点を位数倍する
 => true
 p=G*4                      
 q=G*7
-r=p+q                       # 点の和
+p.add_to_point(q)           # 点の和
+r=p+q                       # 点の和（簡略型）
 s=p.negate                  # 符号の反転 s=(-p)
 (p+s).infinity?             # p+(-p) = 0
 => true
@@ -130,11 +132,19 @@ s=p.negate                  # 符号の反転 s=(-p)
 
 
 ```ruby
- n = group.order                                      # Gの位数
- privKey = 1 + SecureRandom.random_number(n-1)        # 秘密鍵の生成
- pubKey = group.generator.multiply_by_scalar(privKey) # 公開鍵の生成
- pubKey.x                                             # 公開鍵のx座標の値
- pubKey.y                                             # 公開鍵のy座標の値
+require 'ecdsa'
+require 'securerandom'
+
+group = ECDSA::Group::Secp256k1
+n = group.order 					             # Gの位数 
+privKey = 1 + SecureRandom.random_number(n-1)    # 秘密鍵の生成 
+pubKey = group.generator.multiply_by_scalar(privKey) # 公開鍵の生成
+G = group.generator					             # 基準点
+pubkey_simple = G*privKey 				         # 公開鍵の生成（簡略版）
+pubkey.eql?(pubkey_simple)				         # 点と点が等しい
+=> true
+pubKey.x 						                 # 公開鍵のx座標の値 
+pubKey.y 						                 # 公開鍵のy座標の値 
 ```
 
 bitcoin-rubyの場合
