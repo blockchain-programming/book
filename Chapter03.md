@@ -80,9 +80,8 @@ curves = OpenSSL::PKey::EC.builtin_curves
 
 以下の式を満たす数のこと
 
-$
-y^2=x^3+ax+b
-$
+<img src="https://latex.codecogs.com/gif.latex?\inline&space;y^2=x^3+ax+b" />
+
 
 ### ruby_ecdsaで　SECP256k1のパラメータを確認する
 
@@ -102,6 +101,30 @@ group.param_b                              # 係数b
 group.order                                # Gの位数
 => 115792089237316195423570985008687907852837564279074904382605163141518161494337
 ```
+### ruby_ecdsaによる楕円曲線の基本演算
+
+
+```ruby
+require 'ecdsa'
+group = ECDSA::Group::Secp256k1
+G=group.generator           # 基点
+G*3                         # 基点のスカラー倍 3G
+n=group.order               # 基点の位数
+G*n                         # 基点を位数倍する
+(G*n).infinity?             # 無限遠点=0 
+=> true
+(G*(n+1)).infinity?
+=> false
+(G*(n+1))==G                # (n+1)G = G
+=> true
+p=G*4                      
+q=G*7
+r=p+q                       # 点の和
+s=p.negate                  # 符号の反転 s=(-p)
+(p+s).infinity?             # p+(-p) = 0
+=> true
+```
+
 
 ### ECDSAの暗号鍵の生成
 
