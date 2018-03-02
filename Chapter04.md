@@ -18,7 +18,7 @@ $ bitcoin-cli getblockcount
 ### 新しいアドレスの生成
 
 ```
-$ bitcoin-cli getnewaddress
+$ bitcoin-cli getnewaddress  '' legacy
 <ビットコインアドレス1>
 ```
 
@@ -299,7 +299,7 @@ require 'securerandom'
 ext_privkey = Bitcoin::ExtKey.from_base58("xprv9z6uo3ZoHrWf6u5SvbZU4LGAmUHwrCT2mhXR46Xrr8naiimGUPM3g4dh78EMhhXMDfb3fA1Nav6SeJjtoaGouo1ktTHx1BYwidoAJx9eGgz")
 
 # 拡張公開鍵のインポート
-xt_pubkey = Bitcoin::ExtPubkey.from_base58("xpub6D6GCZ6h8E4xNAHKKBQdeJARQgXoyjtoYF3VfsDGoAERTbWBGBunTVnrLXRaWhR7kuVvh9qb1F4zp58P6Gqv5w9DkammPZCU93VWoKWY1ER")
+ext_pubkey = Bitcoin::ExtPubkey.from_base58("xpub6D6GCZ6h8E4xNAHKKBQdeJARQgXoyjtoYF3VfsDGoAERTbWBGBunTVnrLXRaWhR7kuVvh9qb1F4zp58P6Gqv5w9DkammPZCU93VWoKWY1ER")
 ```
 
 #### 第5階層、第6階層の導出
